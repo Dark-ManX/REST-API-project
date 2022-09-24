@@ -23,8 +23,8 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:contactId", async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const result = await contacts.getContactById(id);
+    const { contactId } = req.params;
+    const result = await contacts.getContactById(contactId);
     console.log(result);
 
     if (!result) {
@@ -52,8 +52,8 @@ router.post("/", async (req, res, next) => {
 
 router.delete("/:contactId", async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const result = await contacts.removeContact(id);
+    const { contactId } = req.params;
+    const result = await contacts.removeContact(contactId);
 
     if (!result) {
       throw RequestError(404, "Not found");
@@ -73,8 +73,8 @@ router.put("/:contactId", async (req, res, next) => {
       throw RequestError(400, error.message);
     }
 
-    const { id } = req.params;
-    const result = await contacts.updateContact(id, req.body);
+    const { contactId } = req.params;
+    const result = await contacts.updateContact(contactId, req.body);
 
     if (!result) {
       throw RequestError(404, "Not found");
