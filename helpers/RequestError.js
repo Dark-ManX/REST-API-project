@@ -1,6 +1,6 @@
 const messages = {
   400: "BadRequest",
-  401: "Unatorised",
+  401: "Unauthorised",
   403: "Forbidden",
   404: "Not Found",
   409: "Conflict",
