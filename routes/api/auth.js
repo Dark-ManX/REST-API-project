@@ -2,6 +2,8 @@ const express = require("express");
 
 const { UserController } = require("../../controllers/users");
 
+const { registerUser, logInUser, logOutUser, getCurrent } = UserController;
+
 const { validateBody, tokenChecker } = require("../../middlewares");
 
 const { userSchema } = require("../../models");
@@ -10,20 +12,20 @@ const router = express.Router();
 
 const { userLogIn, userRegistration } = userSchema.schemas;
 
-// --------SignUp----------
+// --------Sign Up----------
 
-router.post(
-  "/signup",
-  validateBody(userRegistration),
-  UserController.logInUser
-);
+router.post("/signup", validateBody(userRegistration), registerUser);
 
-// --------SignIn-----------
+// --------Log In-----------
 
-router.post("/login", validateBody(userLogIn), UserController.logInUser);
+router.post("/login", validateBody(userLogIn), logInUser);
 
-// ---------Get current----------
+// ---------Log Out-------------
 
-router.get("/current", tokenChecker);
+router.get("/logout", tokenChecker, logOutUser);
+
+// ---------Get Current----------
+
+router.get("/current", tokenChecker, getCurrent);
 
 module.exports = router;

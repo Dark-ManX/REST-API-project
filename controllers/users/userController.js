@@ -1,4 +1,7 @@
-const { registration, logIn } = require("../../services/users");
+// const { registration, logIn, } = require("../../services/users");
+
+const { User } = require("../../services/users");
+const { registration, logIn, logOut, current } = User;
 
 const asyncHandler = require("express-async-handler");
 
@@ -10,13 +13,20 @@ class UserController {
   });
 
   logInUser = asyncHandler(async (req, res, next) => {
-    const result = await logIn(req.body);
+    const token = await logIn(req.body);
 
-    res.status(200).json({ code: 200, status: "success", token: result });
+    res.status(200).json({ code: 200, status: "success", token });
   });
 
-  getCurrent = asyncHandler(async (res, req, next) => {
-    const { name, email } = req.body;
+  logOutUser = asyncHandler(async (req, res, next) => {
+    await logOut(req.headers);
+
+    res.status(200).json({ code: 200, status: "success" });
+  });
+
+  getCurrent = asyncHandler(async (req, res, next) => {
+    const user = await current(req.headers);
+    const { name, email } = user;
 
     res.status(200).json({ code: 200, status: "success", name, email });
   });

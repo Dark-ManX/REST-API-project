@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const { getAll } = require("../../services/contacts");
 
 class ContactsController {
+  /* eslint-disable */
   listContacts = asyncHandler(async (req, res, next) => {
     const result = await getAll();
 

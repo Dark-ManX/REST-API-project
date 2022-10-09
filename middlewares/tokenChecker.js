@@ -6,7 +6,6 @@ const { RequestError } = require("../helpers");
 
 const tokenChecker = async (req, res, next) => {
   const { authorization } = req.headers;
-  console.log(authorization);
   const authorizationArr = authorization.split(" ");
 
   const [bearer, token] = authorizationArr;
@@ -14,8 +13,14 @@ const tokenChecker = async (req, res, next) => {
   if (bearer !== "Bearer" || !token) {
     throw RequestError(401, "unauthorized");
   }
-  const verify = jwt.verify(token, SECRET_KEY);
-  console.log("verify", verify);
+
+  const user = jwt.verify(token, SECRET_KEY);
+
+  if (!user) {
+    throw RequestError(401, "unauthorized");
+  }
+
+  next();
 };
 
 module.exports = tokenChecker;
